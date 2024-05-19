@@ -15,4 +15,5 @@ augment class Sample {
 ```
 
 ## 解説記事
-準備中
+
+https://zenn.dev/yumemi_inc/articles/6d526d0546b9f7
