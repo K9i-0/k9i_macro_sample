@@ -1,8 +1,42 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
 library;
 
-export 'src/k9i_macro_sample_base.dart';
+// exportするとVS CodeにGo to Augmentationが表示されない？
+// export 'src/k9i_macro_sample_base.dart';
+import 'dart:async';
 
-// TODO: Export any libraries intended for clients of this package.
+import 'package:macros/macros.dart';
+
+macro class Hello implements ClassDeclarationsMacro {
+  const  Hello();
+
+  @override
+  FutureOr<void> buildDeclarationsForClass(ClassDeclaration clazz, MemberDeclarationBuilder builder) async {
+    builder.declareInLibrary(
+      DeclarationCode.fromParts([
+        'augment ',
+        'class ${clazz.identifier.name}',
+        ' {',
+      ]),
+    );
+
+    final methods = await builder.methodsOf(clazz);
+    final hello =
+        methods.where((e) => e.identifier.name == 'hello').firstOrNull;
+
+    if (hello != null) return;
+
+    builder.declareInLibrary(
+      DeclarationCode.fromParts(
+        [
+          '  void hello() => print("Hello, World!");',
+        ]
+      ),
+    );
+
+    builder.declareInLibrary(
+      DeclarationCode.fromParts([
+        '}',
+      ]),
+    );
+  }
+}

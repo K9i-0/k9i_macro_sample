@@ -1,6 +1,9 @@
 import 'package:k9i_macro_sample/k9i_macro_sample.dart';
 
+@Hello()
+class Sample {}
+
 void main() {
-  var awesome = Awesome();
-  print('awesome: ${awesome.isAwesome}');
+  final sample = Sample();
+  sample.hello();
 }
